@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="bank.controller.MainController"
+            styleClass="root-pane">
+
+    <!-- TOP: Header -->
+    <top>
+        <HBox styleClass="header" alignment="CENTER_LEFT" spacing="20">
+            <Label text="🏦 Banking System" styleClass="header-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusLabel" text="Ready" styleClass="status-label"/>
+        </HBox>
+    </top>
+
+    <!-- LEFT: Navigation -->
+    <left>
+        <VBox styleClass="sidebar" spacing="10" minWidth="180">
+            <padding><Insets top="20" right="10" bottom="20" left="10"/></padding>
+            <Label text="NAVIGATION" styleClass="nav-header"/>
+            <Button fx:id="btnDashboard" text="📊  Dashboard"
+                    styleClass="nav-button" maxWidth="Infinity"
+                    onAction="#showDashboard"/>
+            <Button fx:id="btnNewAccount" text="➕  New Account"
+                    styleClass="nav-button" maxWidth="Infinity"
+                    onAction="#showNewAccount"/>
+            <Button fx:id="btnDeposit" text="💰  Deposit"
+                    styleClass="nav-button" maxWidth="Infinity"
+                    onAction="#showDeposit"/>
+            <Button fx:id="btnWithdraw" text="💸  Withdraw"
+                    styleClass="nav-button" maxWidth="Infinity"
+                    onAction="#showWithdraw"/>
+            <Button fx:id="btnTransfer" text="🔄  Transfer"
+                    styleClass="nav-button" maxWidth="Infinity"
+                    onAction="#showTransfer"/>
+        </VBox>
+    </left>
+
+    <!-- CENTER: Dynamic content area -->
+    <center>
+        <StackPane fx:id="contentArea" styleClass="content-area">
+
+            <!-- Dashboard Panel -->
+            <VBox fx:id="dashboardPanel" spacing="15" visible="true">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                <Label text="All Accounts" styleClass="section-title"/>
+                <TableView fx:id="accountsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colNumber" text="Account No"
+                                     prefWidth="120"/>
+                        <TableColumn fx:id="colOwner" text="Owner"
+                                     prefWidth="150"/>
+                        <TableColumn fx:id="colType" text="Type"
+                                     prefWidth="120"/>
+                        <TableColumn fx:id="colBalance" text="Balance (UGX)"
+                                     prefWidth="150"/>
+                    </columns>
+                </TableView>
+                <Button text="🔄 Refresh" onAction="#refreshAccounts"
+                        styleClass="primary-button"/>
+            </VBox>
+
+            <!-- New Account Panel -->
+            <VBox fx:id="newAccountPanel" spacing="15" visible="false">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                <Label text="Open New Account" styleClass="section-title"/>
+                <GridPane hgap="15" vgap="12">
+                    <Label text="Account Number:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="0"/>
+                    <TextField fx:id="tfAccountNumber" promptText="e.g. ACC004"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"
+                               prefWidth="250"/>
+                    <Label text="Owner Name:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="1"/>
+                    <TextField fx:id="tfOwner" promptText="Full name"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Initial Balance:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="2"/>
+                    <TextField fx:id="tfInitialBalance" promptText="0.00"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label text="Account Type:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="3"/>
+                    <ComboBox fx:id="cbAccountType"
+                              GridPane.columnIndex="1" GridPane.rowIndex="3"
+                              prefWidth="250"/>
+                </GridPane>
+                <HBox spacing="10">
+                    <Button text="Create Account" styleClass="primary-button"
+                            onAction="#createAccount"/>
+                    <Button text="Clear" styleClass="secondary-button"
+                            onAction="#clearNewAccountForm"/>
+                </HBox>
+                <Label fx:id="newAccountMessage" styleClass="message-label"/>
+            </VBox>
+
+            <!-- Deposit Panel -->
+            <VBox fx:id="depositPanel" spacing="15" visible="false">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                <Label text="Deposit Funds" styleClass="section-title"/>
+                <GridPane hgap="15" vgap="12">
+                    <Label text="Account Number:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="0"/>
+                    <TextField fx:id="tfDepositAccount"
+                               promptText="Account number"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"
+                               prefWidth="250"/>
+                    <Label text="Amount:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="1"/>
+                    <TextField fx:id="tfDepositAmount" promptText="0.00"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                </GridPane>
+                <Button text="Deposit" styleClass="primary-button"
+                        onAction="#performDeposit"/>
+                <Label fx:id="depositMessage" styleClass="message-label"/>
+            </VBox>
+
+            <!-- Withdraw Panel -->
+            <VBox fx:id="withdrawPanel" spacing="15" visible="false">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                <Label text="Withdraw Funds" styleClass="section-title"/>
+                <GridPane hgap="15" vgap="12">
+                    <Label text="Account Number:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="0"/>
+                    <TextField fx:id="tfWithdrawAccount"
+                               promptText="Account number"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"
+                               prefWidth="250"/>
+                    <Label text="Amount:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="1"/>
+                    <TextField fx:id="tfWithdrawAmount" promptText="0.00"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                </GridPane>
+                <Button text="Withdraw" styleClass="primary-button"
+                        onAction="#performWithdraw"/>
+                <Label fx:id="withdrawMessage" styleClass="message-label"/>
+            </VBox>
+
+            <!-- Transfer Panel -->
+            <VBox fx:id="transferPanel" spacing="15" visible="false">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                <Label text="Transfer Funds" styleClass="section-title"/>
+                <GridPane hgap="15" vgap="12">
+                    <Label text="From Account:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="0"/>
+                    <TextField fx:id="tfFromAccount"
+                               promptText="Source account number"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"
+                               prefWidth="250"/>
+                    <Label text="To Account:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="1"/>
+                    <TextField fx:id="tfToAccount"
+                               promptText="Destination account number"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Amount:" GridPane.columnIndex="0"
+                           GridPane.rowIndex="2"/>
+                    <TextField fx:id="tfTransferAmount" promptText="0.00"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                </GridPane>
+                <Button text="Transfer" styleClass="primary-button"
+                        onAction="#performTransfer"/>
+                <Label fx:id="transferMessage" styleClass="message-label"/>
+            </VBox>
+
+        </StackPane>
+    </center>
+
+    <!-- BOTTOM: Status bar -->
+    <bottom>
+        <HBox styleClass="status-bar" spacing="10" alignment="CENTER_LEFT">
+            <padding><Insets top="5" right="15" bottom="5" left="15"/></padding>
+            <Label fx:id="bottomStatus" text="Banking System v1.0"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="accountCountLabel" text="Accounts: 0"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -12,6 +12,8 @@ import bank.repository.AccountRepository;
 import bank.repository.AccountRepositoryInterface;
 import bank.strategy.AccountFactory;
 
+import java.util.List;
+
 public class BankService {
     private AccountRepositoryInterface repository;
 
@@ -42,6 +44,21 @@ public class BankService {
         repository.save(account);
         return  account;
     }
+
+    public SavingsAccount openPremiumSavingsAccount(String accountNumber,
+                                                    String owner,
+                                                    double initialBalance) {
+        if (repository.exists(accountNumber)) {
+            System.out.println("Account already exists: " + accountNumber);
+            return  null;
+        }
+        SavingsAccount account = AccountFactory.createPremiumSavingsAccount(accountNumber, owner, initialBalance);
+        account.addObserver(new LowBalanceAlert(200.0));
+        account.addObserver(new TransactionLogger());
+        repository.save(account);
+        return account;
+    }
+
 
     public void deposit(String accountNumber, double amount){
         BankAccount account = repository.findByAccountNumber(accountNumber);
@@ -111,4 +128,10 @@ public class BankService {
             System.out.println(account);
         }
     }
+
+    public List<BankAccount> getAllAccounts() {
+        return repository.findAll();
+    }
+
+
 }
