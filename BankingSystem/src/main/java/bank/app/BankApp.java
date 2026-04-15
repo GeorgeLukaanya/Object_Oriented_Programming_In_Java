@@ -1,12 +1,14 @@
-package bank;
+package bank.app;
 
 import bank.repository.AccountRepository;
+import bank.repository.AccountRepositoryInterface;
+import bank.repository.InMemoryAccountRepository;
 import bank.service.BankService;
 
 public class BankApp {
     public  static void main(String[] args) {
         //Wire the layers up
-        AccountRepository repository = new AccountRepository();
+        AccountRepositoryInterface repository = new InMemoryAccountRepository();
         BankService service = new BankService(repository);
 
         //Open accounts

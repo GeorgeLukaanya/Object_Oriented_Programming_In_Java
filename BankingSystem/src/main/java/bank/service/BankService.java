@@ -9,12 +9,13 @@ import bank.model.SavingsAccount;
 import bank.observer.LowBalanceAlert;
 import bank.observer.TransactionLogger;
 import bank.repository.AccountRepository;
+import bank.repository.AccountRepositoryInterface;
 import bank.strategy.AccountFactory;
 
 public class BankService {
-    private AccountRepository repository;
+    private AccountRepositoryInterface repository;
 
-    public BankService(AccountRepository repository){
+    public BankService(AccountRepositoryInterface repository){
         this.repository = repository;
     }
 
@@ -38,6 +39,7 @@ public class BankService {
         SavingsAccount account = AccountFactory.createSavingsAccount(accountNumber, owner, initialBalance);
         account.addObserver(new LowBalanceAlert(200.0));
         account.addObserver(new TransactionLogger());
+        repository.save(account);
         return  account;
     }
 
@@ -74,7 +76,7 @@ public class BankService {
         }
         from.withdraw(amount);
         to.deposit(amount);
-        System.out.println("Transferred " + amount + "from " + fromAccountNumber + " to " + toAccountNumber);
+        System.out.println("Transferred " + amount + " from " + fromAccountNumber + " to " + toAccountNumber);
     }
 
     public void applyMonthlyInterest(String accountNumber){

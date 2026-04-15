@@ -10,7 +10,7 @@ public class LowBalanceAlert implements AccountObserver{
 
     @Override
     public void onBalanceChanged(String accountNumber, double newBalance) {
-        if(newBalance < threshold) {
+        if(newBalance <= threshold) {
             System.out.println("ALERT: Account " + accountNumber + " balance is low: " + newBalance);
         }
     }
