@@ -1,4 +1,6 @@
-package bank;
+package bank.model;
+
+import bank.strategy.FeeStrategy;
 
 public class CheckingAccount extends BankAccount{
     private double overdraftLimit;

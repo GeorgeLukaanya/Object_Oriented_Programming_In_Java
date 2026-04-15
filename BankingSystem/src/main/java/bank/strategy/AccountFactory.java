@@ -1,4 +1,7 @@
-package bank;
+package bank.strategy;
+
+import bank.model.CheckingAccount;
+import bank.model.SavingsAccount;
 
 public class AccountFactory {
 

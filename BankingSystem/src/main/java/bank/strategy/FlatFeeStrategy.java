@@ -1,4 +1,4 @@
-package bank;
+package bank.strategy;
 
 public class FlatFeeStrategy implements FeeStrategy{
     private double fee;

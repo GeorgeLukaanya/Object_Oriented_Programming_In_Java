@@ -1,4 +1,4 @@
-package bank;
+package bank.strategy;
 
 public class PercentageFeeStrategy implements  FeeStrategy {
     private double percentage;

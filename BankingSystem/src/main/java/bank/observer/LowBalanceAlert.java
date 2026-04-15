@@ -1,4 +1,4 @@
-package bank;
+package bank.observer;
 
 public class LowBalanceAlert implements AccountObserver{
 

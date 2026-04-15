@@ -1,9 +1,9 @@
-package bank;
-import bank.FeeStrategy;
+package bank.model;
+import bank.observer.AccountObserver;
+import bank.strategy.FeeStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.classfile.constantpool.FieldRefEntry;
 
 
 public abstract class BankAccount {

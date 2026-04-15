@@ -1,11 +1,18 @@
 package bank;
 
+import bank.model.CheckingAccount;
+import bank.model.SavingsAccount;
+import bank.observer.LowBalanceAlert;
+import bank.observer.TransactionLogger;
+import bank.strategy.AccountFactory;
+import bank.strategy.PercentageFeeStrategy;
+
 public class Bank {
     public static void main(String[] args){
 
         //Factory Pattern
         CheckingAccount checking = AccountFactory.createCheckingAccount("ACC001", "Mariam", 1000.0);
-        SavingsAccount savings = AccountFactory.createSavingsAccount("ACC002", "George", 5000);
+        SavingsAccount savings = AccountFactory.createSavingsAccount("ACC002", "George", 2000);
         SavingsAccount premium = AccountFactory.createPremiumSavingsAccount("ACC003", "John", 5000);
 
         //Observer Pattern - attach listeners
@@ -15,7 +22,7 @@ public class Bank {
         checking.addObserver(alert);
         checking.addObserver(logger);
         savings.addObserver(alert);
-        savings.addObserver(alert);
+        savings.addObserver(logger);
 
         System.out.println("=== Initial state ===");
         System.out.println(checking);
